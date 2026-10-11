@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RHYTHM · a drum machine and sampler for the R36S</title>
+<meta name="description" content="A drum machine and sampler for the R36S, the handheld game console that costs about $40.">
+<meta property="og:title" content="RHYTHM">
+<meta property="og:description" content="A drum machine and sampler for the R36S, the handheld game console that costs about $40.">
+<meta property="og:image" content="https://willbearfruits.github.io/r36s-rhythm/img/pattern.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:ital,wght@0,400;0,600;1,400&display=swap">
+<style>
+:root{
+  --bg:#e9e8e2; --paper:#f3f2ed; --ink:#151412; --muted:#5f5e57; --rule:#151412; --soft:#cfcdc4;
+  --accent:#2f8f5b;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  --sans:"IBM Plex Sans",system-ui,sans-serif;
+  color-scheme:light dark;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){--bg:#141412;--paper:#1c1c19;--ink:#e7e5dc;--muted:#a09e94;--rule:#e7e5dc;--soft:#3a3934}
+}
+:root[data-theme="dark"]{--bg:#141412;--paper:#1c1c19;--ink:#e7e5dc;--muted:#a09e94;--rule:#e7e5dc;--soft:#3a3934}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 var(--sans)}
+img,video{max-width:100%;height:auto;display:block}
+a{color:inherit;text-decoration-color:var(--accent);text-underline-offset:3px;text-decoration-thickness:2px}
+a:hover{color:var(--accent)}
+.wrap{max-width:1040px;margin:0 auto;padding:0 16px}
+header.top{border-bottom:1px solid var(--rule);font-family:var(--mono);font-size:13px}
+header.top .wrap{display:flex;gap:16px;align-items:center;justify-content:space-between;min-height:48px;flex-wrap:wrap}
+header.top a{text-decoration:none}
+.brand{font-weight:600;letter-spacing:.12em}
+header.top nav{display:flex;gap:16px;flex-wrap:wrap}
+.hero{padding:48px 0 32px;display:grid;grid-template-columns:1.05fr 1fr;gap:40px;align-items:center}
+.kicker{font-family:var(--mono);font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin:0 0 12px}
+.hero h1{font-family:var(--mono);font-weight:600;font-size:clamp(40px,7vw,72px);letter-spacing:.01em;line-height:.95;margin:0 0 18px}
+.lead{font-size:clamp(19px,2.4vw,22px);line-height:1.45;margin:0 0 12px;max-width:28em}
+.small{color:var(--muted);font-size:15px;margin:0 0 22px}
+.actions{display:flex;flex-wrap:wrap;gap:10px}
+.btn{font-family:var(--mono);font-size:14px;border:1px solid var(--rule);padding:10px 16px;text-decoration:none;background:var(--paper);color:var(--ink);display:inline-block}
+.btn:hover{border-color:var(--accent);color:var(--accent)}
+.btn.solid{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.btn.solid:hover{background:var(--accent);border-color:var(--accent);color:#fff}
+.frame{border:1px solid var(--rule);background:var(--paper);padding:10px}
+.frame figcaption{font-family:var(--mono);font-size:12px;color:var(--muted);padding-top:8px}
+section{padding:40px 0;border-top:1px solid var(--soft)}
+h2{font-family:var(--mono);font-size:14px;letter-spacing:.14em;text-transform:uppercase;margin:0 0 22px;font-weight:600}
+h2::before{content:"";display:inline-block;width:10px;height:10px;background:var(--accent);margin-right:10px;vertical-align:1px}
+h3{font-family:var(--mono);font-size:17px;margin:0 0 6px;font-weight:600}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:22px}
+.card p{margin:0;color:var(--muted)}
+.card{border-top:2px solid var(--ink);padding-top:12px}
+.shots{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+.shots figure{margin:0}
+.get{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
+.get .box{border:1px solid var(--rule);background:var(--paper);padding:20px}
+.get .box p{margin:0 0 14px}
+.get .box .price{font-family:var(--mono);font-size:15px;color:var(--accent);margin:0 0 10px}
+.prose{max-width:44em}
+.prose p{margin:0 0 14px}
+pre,code{font-family:var(--mono);font-size:14px}
+pre{background:var(--paper);border:1px solid var(--soft);padding:14px;overflow-x:auto}
+.status{font-family:var(--mono);font-size:14px;border-left:3px solid var(--accent);padding:6px 0 6px 14px;max-width:44em}
+.video{aspect-ratio:16/9;width:100%;border:1px solid var(--rule);background:#000}
+footer{border-top:1px solid var(--rule);margin-top:24px;padding:28px 0 48px;font-family:var(--mono);font-size:13px;color:var(--muted)}
+footer .wrap{display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-between}
+footer a{color:var(--ink)}
+@media (max-width:760px){
+  .hero{grid-template-columns:1fr;padding-top:28px;gap:24px}
+  section{padding:30px 0}
+}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="brand" href="https://willbearfruits.github.io/">SERIOUS S.H.I.T.</a>
+  <nav>
+    <a href="#what">What it does</a>
+    <a href="#get">Get one</a>
+    <a href="https://github.com/willbearfruits/r36s-rhythm">Source</a>
+  </nav>
+</div></header>
+
+<main class="wrap">
+  <div class="hero">
+    <div>
+      <p class="kicker">Drum machine + sampler · R36S</p>
+      <h1>RHYTHM</h1>
+      <p class="lead">A drum machine and sampler for the R36S, the handheld game console that costs about $40. Program twelve tracks with the D-pad, play them on the buttons, bend them with the sticks.</p>
+      <p class="small">Runs on ArkOS, and on a Linux computer. Free software, GPL-3.0.</p>
+      <div class="actions">
+        <a class="btn solid" href="https://github.com/willbearfruits/r36s-rhythm/releases/latest">Download for R36S</a>
+        <a class="btn" href="https://github.com/willbearfruits/r36s-rhythm">Source on GitHub</a>
+      </div>
+    </div>
+    <figure class="frame" style="margin:0">
+      <img src="img/pattern.png" width="640" height="480" alt="RHYTHM's PATTERN screen: twelve coloured tracks of sixteen steps, and under them the CHOP track's break cut into eight slices">
+      <figcaption>PATTERN: twelve tracks, sixteen steps, a break sliced in eight. Every picture here is the instrument's own screen.</figcaption>
+    </figure>
+  </div>
+
+  <section id="what">
+    <h2>What it does</h2>
+    <div class="grid">
+      <div class="card"><h3>Twelve tracks</h3><p>Each one a synthesized drum or a sample. 58 drums to start from, every part of them a knob; your own WAV files, cut into up to 32 slices at their hits.</p></div>
+      <div class="card"><h3>Patterns</h3><p>128 of them, up to 64 steps. Per step: velocity, nudge, ratchets, chance, conditions, accent, flam. Per track: its own length and speed.</p></div>
+      <div class="card"><h3>Pads</h3><p>Hold L1 and the D-pad and A B X Y play eight tracks; L2 plays the other four and a fill. With REC on, what you play goes into the pattern.</p></div>
+      <div class="card"><h3>Two sticks</h3><p>The left bends the drum, live or locked onto a step. The right plays repeat, reverse, tape stop, gate, filter, crush, dub and freeze, from any screen.</p></div>
+      <div class="card"><h3>Sample and render</h3><p>Record the master or one track and put the take back on a track, sliced. Render a pattern or the song to WAV.</p></div>
+      <div class="card"><h3>MIDI and sync</h3><p>Notes and clock in and out, MIDI learn, a monitor. Or a sync pulse on the headphone jack for Pocket Operators, volcas and modular.</p></div>
+    </div>
+  </section>
+
+  <section id="screens">
+    <h2>Screens</h2>
+    <div class="shots">
+      <figure class="frame"><a href="img/pads.png"><img src="img/pads.png" width="640" height="480" alt="PADS: eight coloured pads in two diamonds, under the pattern"></a><figcaption>PADS: hold L1, play eight tracks</figcaption></figure>
+      <figure class="frame"><a href="img/step.png"><img src="img/step.png" width="640" height="480" alt="STEP: one step's velocity, nudge, ratchet, chance and condition"></a><figcaption>STEP: everything one step can do</figcaption></figure>
+      <figure class="frame"><a href="img/perform.png"><img src="img/perform.png" width="640" height="480" alt="PERFORM: the right stick's position on a grid, filter on one axis and repeat on the other"></a><figcaption>PERFORM: two effects on the right stick</figcaption></figure>
+      <figure class="frame"><a href="img/sound.png"><img src="img/sound.png" width="640" height="480" alt="SOUND: the kick's knobs and its waveform"></a><figcaption>SOUND: the drum engine, a knob for everything</figcaption></figure>
+      <figure class="frame"><a href="img/sample.png"><img src="img/sample.png" width="640" height="480" alt="SAMPLE: a break's waveform with eight slice markers"></a><figcaption>SAMPLE: start, end, slices, loop</figcaption></figure>
+      <figure class="frame"><a href="img/sampling.png"><img src="img/sampling.png" width="640" height="480" alt="SAMPLING: the source, start and length of a recording, and the take"></a><figcaption>SAMPLING: record the beat, play it back sliced</figcaption></figure>
+      <figure class="frame"><a href="img/generate.png"><img src="img/generate.png" width="640" height="480" alt="GENERATE: a Euclidean circle of 3 hits in 16 steps, and the dice"></a><figcaption>GENERATE: Euclid, dice and fills</figcaption></figure>
+      <figure class="frame"><a href="img/mixer.png"><img src="img/mixer.png" width="640" height="480" alt="MIXER: twelve channel strips and the master"></a><figcaption>MIXER: twelve strips and the master</figcaption></figure>
+      <figure class="frame"><a href="img/song.png"><img src="img/song.png" width="640" height="480" alt="SONG: a chain of patterns on a timeline"></a><figcaption>SONG: patterns in a chain</figcaption></figure>
+      <figure class="frame"><a href="img/fx.png"><img src="img/fx.png" width="640" height="480" alt="FX: the tape delay and reverb knobs, and each track's sends"></a><figcaption>FX: tape delay, reverb, sends</figcaption></figure>
+      <figure class="frame"><a href="img/midi.png"><img src="img/midi.png" width="640" height="480" alt="MIDI: the settings, each track's channel and note, and a monitor"></a><figcaption>MIDI: channels, notes, learn, monitor</figcaption></figure>
+      <figure class="frame"><a href="img/sync.png"><img src="img/sync.png" width="640" height="480" alt="SYNC: tempo, tap, swing and the headphone jack's modes"></a><figcaption>SYNC: clock, tap tempo, jack sync</figcaption></figure>
+    </div>
+    <p class="small" style="margin:18px 0 0">Seventeen screens in all; the <a href="https://github.com/willbearfruits/r36s-rhythm#the-screens">README</a> lists them. The <a href="mockups/">design mockups</a> show how they were drawn before the code.</p>
+  </section>
+
+  <section id="get">
+    <h2>Get one</h2>
+    <div class="get">
+      <div class="box">
+        <h3>What you need</h3>
+        <p>An R36S with ArkOS on its SD card, and a computer with a card reader to copy RHYTHM and your samples onto it.</p>
+        <p>Headphones, or a cable to a mixer. Optional: a Pocket Operator, a volca or a modular clock input to sync, and a USB MIDI keyboard or controller.</p>
+      </div>
+      <div class="box">
+        <h3>Download for R36S</h3>
+        <p class="price">r36s-rhythm-port.zip · under 1 MB</p>
+        <p>An ArkOS port: unzip it into the ports folder on the card and it shows up under Ports.</p>
+        <a class="btn solid" href="https://github.com/willbearfruits/r36s-rhythm/releases/latest/download/r36s-rhythm-port.zip">Download</a>
+        <a class="btn" href="#install">How to install</a>
+      </div>
+      <div class="box">
+        <h3>Run it on a computer</h3>
+        <p>No R36S? It builds on Linux with SDL2 and ALSA, and the keys sit where the R36S's buttons do. All of it is open: code, tests, the port.</p>
+        <a class="btn" href="https://github.com/willbearfruits/r36s-rhythm#run-it-on-a-computer">Read the guide</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="install">
+    <h2>Install on the R36S</h2>
+    <div class="prose">
+      <ol>
+        <li>Download <a href="https://github.com/willbearfruits/r36s-rhythm/releases/latest/download/r36s-rhythm-port.zip"><code>r36s-rhythm-port.zip</code></a>.</li>
+        <li>Turn the R36S off and put its SD card in the computer. Open the <b>EASYROMS</b> partition and the <b>ports</b> folder in it. (On an R36S with two cards, the games may be on the second card.)</li>
+        <li>Copy <code>Rhythm.sh</code> and the <code>rhythm</code> folder from the zip into <code>ports</code>.</li>
+        <li>Put the card back and turn the R36S on: <b>Ports &gt; Rhythm</b>. A beat is loaded: press START.</li>
+      </ol>
+      <p>Hold SELECT + START for a second and a half to leave. Your WAV files go in <code>ports/rhythm/card/SAMPLES</code>; projects, renders and recordings are saved next to it. It saves by itself a few seconds after every change.</p>
+    </div>
+  </section>
+
+  <section id="controls">
+    <h2>Controls</h2>
+    <div class="grid">
+      <div class="card"><h3>START</h3><p>Play and stop.</p></div>
+      <div class="card"><h3>SELECT</h3><p>The menu of every screen. Held with the D-pad, it jumps to PATTERN, MIXER, SOUND or PERFORM.</p></div>
+      <div class="card"><h3>D-pad and A</h3><p>Move, and set steps. With A held, the D-pad changes the value under the cursor.</p></div>
+      <div class="card"><h3>X and Y</h3><p>X opens a step's details; Y listens to the track, and with ←→ tries the next drum.</p></div>
+      <div class="card"><h3>L1, L2</h3><p>Held: the pads. SELECT in the pads turns recording on.</p></div>
+      <div class="card"><h3>R2</h3><p>Held: copy, paste, clear, undo, and the next pattern.</p></div>
+      <div class="card"><h3>The sticks</h3><p>Left: bend the drum, or lock the bend onto a step. Right: two effects at once; R3 holds them.</p></div>
+      <div class="card"><h3>SELECT + START</h3><p>Held for a second and a half: back to ArkOS. Your work is already saved.</p></div>
+    </div>
+  </section>
+
+  <section id="status">
+    <h2>Status</h2>
+    <p class="status">Plays on the maker's R36S under ArkOS; the first public version. The checks pass on a PC. The R36S has no audio input, so SAMPLING records RHYTHM itself. USB MIDI on the R36S is not confirmed yet.</p>
+  </section>
+</main>
+
+<footer><div class="wrap">
+  <span>Part of <a href="https://willbearfruits.github.io/">Serious S.H.I.T.</a>: instruments, tools and workshops made in Haifa by Yaniv Schonfeld (Willbear).</span>
+  <span><a href="https://www.patreon.com/Seriousshit">Patreon</a> · <a href="https://www.instagram.com/shitisizers/">Instagram</a> · <a href="https://www.youtube.com/@Serioushit">YouTube</a> · <a href="https://github.com/willbearfruits">GitHub</a> · <a href="mailto:Dogme84@gmail.com">Email</a></span>
+</div></footer>
+</body>
+</html>

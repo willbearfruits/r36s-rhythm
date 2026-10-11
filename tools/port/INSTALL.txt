@@ -1,0 +1,22 @@
+RHYTHM: a drum machine and sampler for the R36S
+https://github.com/willbearfruits/r36s-rhythm
+
+You need an R36S with ArkOS on its card.
+
+1. Turn the R36S off and put its SD card in a computer.
+2. Open the EASYROMS partition and the "ports" folder in it. (On an R36S with two
+   cards, the games may be on the second card.)
+3. Copy Rhythm.sh and the rhythm folder from this zip into "ports", so you have
+   ports/Rhythm.sh and ports/rhythm/rhythm.
+4. Put the card back and turn the R36S on: Ports > Rhythm.
+
+START plays and stops. SELECT opens the menu. Hold L1 and the D-pad and A B X Y
+play the drums. Hold SELECT + START for a second and a half to leave.
+
+Your sounds: put WAV files in ports/rhythm/card/SAMPLES (folders inside are fine;
+the folder appears after the first start, or make it yourself). Projects are in
+card/PROJECTS, renders in card/RENDERS, sampled takes in card/RECORDINGS.
+
+A newer version copies over this one the same way; your card folder stays.
+
+If something goes wrong, rhythm/log.txt and rhythm/stdout.txt say what happened.

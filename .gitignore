@@ -1,0 +1,6 @@
+# Build output: make, make desktop, make run, make port, make arm64, make ref
+build/
+*.o
+*.d
+# Local notes for a bare-metal version (the R36S vendor kernel's device tree): not published
+docs/hardware/
